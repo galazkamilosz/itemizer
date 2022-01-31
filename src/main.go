@@ -38,6 +38,9 @@ func main() {
 	mux.HandleFunc("/", app.home)
 	mux.HandleFunc("/champion", app.showChampion)
 
+	fileServer := http.FileServer(http.Dir("./ui/static/"))
+	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
+
 	err = http.ListenAndServe(":8080", mux)
 	log.Fatal(err)
 }
